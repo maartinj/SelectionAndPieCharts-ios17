@@ -9,13 +9,31 @@
 // Buy me a ko-fi:  https://ko-fi.com/StewartLynch
 
 
+import Charts
 import SwiftUI
 
 struct BarChartView: View {
+    var wineTypes = WineType.all
     var body: some View {
         NavigationStack {
             VStack {
-                Text("Bar Chart")
+                Chart(wineTypes) { wineType in
+                    BarMark(
+                        x: .value(
+                            "Type",
+                            wineType.name
+                        ),
+                        y: .value(
+                            "In Stock",
+                            wineType.inStock
+                        )
+                    )
+                    .foregroundStyle(wineType.color.gradient)
+                    .annotation {
+                        Text("\(wineType.inStock)")
+                    }
+                }
+                .frame(height: 400)
                 Spacer()
             }
             .padding()
