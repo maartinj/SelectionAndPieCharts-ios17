@@ -12,8 +12,12 @@
 import Charts
 import SwiftUI
 
+// 5:30
+
 struct BarChartView: View {
     var wineTypes = WineType.all
+    @State private var selectedWineType: WineType?
+    @State private var selectedName: String?
     var body: some View {
         NavigationStack {
             VStack {
@@ -28,17 +32,37 @@ struct BarChartView: View {
                             wineType.inStock
                         )
                     )
-                    .foregroundStyle(wineType.color.gradient)
+//                    .foregroundStyle(by: .value(
+//                        "Type",
+//                        wineType.name
+//                    ))
+                    .foregroundStyle(selectedWineType?.name == wineType.name ? Color.gray.gradient : wineType.color.gradient)
                     .annotation {
                         Text("\(wineType.inStock)")
                     }
                 }
                 .frame(height: 400)
+                .chartXSelection(value: $selectedName)
+                .onChange(of: selectedName) { oldValue, newValue in
+                    if let newValue {
+                        getSelectedWineType(name: newValue)
+                    }
+                }
+                if let selectedWineType {
+                    VStack {
+                        Text(selectedWineType.name)
+                            .font(.title)
+                        Text(selectedWineType.text)
+                    }
+                }
                 Spacer()
             }
             .padding()
             .navigationTitle("Bar Chart")
         }
+    }
+    private func getSelectedWineType(name: String ) {
+        selectedWineType = wineTypes.first { $0.name == name }
     }
 }
 
