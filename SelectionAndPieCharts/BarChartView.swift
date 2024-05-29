@@ -12,8 +12,6 @@
 import Charts
 import SwiftUI
 
-// 5:30
-
 struct BarChartView: View {
     var wineTypes = WineType.all
     @State private var selectedWineType: WineType?
