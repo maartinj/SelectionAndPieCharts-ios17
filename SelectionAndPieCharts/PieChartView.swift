@@ -35,6 +35,7 @@ struct PieChartView: View {
                             .foregroundStyle(wineType.color)
                     }
                 }
+                Spacer()
             }
             .padding()
             .navigationTitle("Pie Chart")
