@@ -9,13 +9,32 @@
 // Buy me a ko-fi:  https://ko-fi.com/StewartLynch
 
 
+import Charts
 import SwiftUI
 
 struct PieChartView: View {
+    var wineTypes = WineType.all
     var body: some View {
         NavigationStack {
             VStack {
-                Text("Pie Chart")
+                Chart(wineTypes) { wineType in
+                    SectorMark(angle: .value("In Stock", wineType.inStock),
+                               angularInset: 1
+                    )
+                    .annotation(position: .overlay) {
+                        Text("\(wineType.inStock)")
+                            .foregroundStyle(.white)
+                    }
+//                        .foregroundStyle(by: .value("Wine Type", wineType.name))
+                        .foregroundStyle(wineType.color)
+                }
+                // Custom Own Legend here
+                VStack(alignment: .leading) {
+                    ForEach(wineTypes) { wineType in
+                        Label(wineType.name, systemImage: "square.fill")
+                            .foregroundStyle(wineType.color)
+                    }
+                }
                 Spacer()
             }
             .padding()
